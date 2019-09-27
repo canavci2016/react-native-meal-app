@@ -8,7 +8,6 @@ const selectedCategoryFunc = navicationObj => {
     return CATEGORIES.find(cat => categoryId === cat.id);
 };
 
-
 const CategoryMealsScreen = props => {
     const selectedCategory = selectedCategoryFunc(props);
     const meals = MEALS.filter(meal => meal.categoryIds.indexOf(selectedCategory.id) >= 0);

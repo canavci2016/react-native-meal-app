@@ -28,6 +28,9 @@ const MealsNavigator = createStackNavigator({
         },
         headerTintColor: Platform.OS === 'android' ? 'white' : Colors.primaryColor,
         headerTitle: 'Meal App',
+        headerTitleStyle: {
+            fontFamily: 'open-sans-bold',
+        },
     },
 });
 
