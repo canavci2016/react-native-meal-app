@@ -1,15 +1,9 @@
 import React from 'react';
-import {StyleSheet, Text, View, Button, FlatList, TouchableOpacity, Platform} from 'react-native';
+import {FlatList} from 'react-native';
 import {CATEGORIES} from "../data/dumy-data";
 import CategoryGridTile from '../components/CategoryGridTile';
-
-const test = () => {
-    return <View style={styles.screen}>
-        <Text>Categories Screen</Text>
-        <Button onPress={() => props.navigation.navigate('CategoryMeals')} title={'Go to Meal'}/>
-        <Button onPress={() => props.navigation.replace('CategoryMeals')} title={'Go to Meal Replace'}/>
-    </View>;
-}
+import {HeaderButtons, Item} from "react-navigation-header-buttons";
+import HeaderButton from '../components/HeaderButton';
 
 const CategoriesScreen = props => {
     return (
@@ -21,6 +15,18 @@ const CategoriesScreen = props => {
                   />}
                   numColumns={2}/>
     );
+};
+
+
+CategoriesScreen.navigationOptions = navData => {
+    console.log(navData);
+    return {
+        headerTitle: 'Meal Categories',
+        headerLeft:
+            <HeaderButtons HeaderButtonComponent={HeaderButton}>
+                <Item title={'Menu'} iconName={'ios-menu'} onPress={() => navData.navigation.toggleDrawer()}/>
+            </HeaderButtons>
+    };
 };
 
 
