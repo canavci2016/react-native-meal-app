@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, FlatList, StyleSheet, View} from 'react-native';
+import {FlatList, StyleSheet, View} from 'react-native';
 import MealItem from '../components/MealItem';
 
 const MealList = props => {
@@ -13,7 +13,8 @@ const MealList = props => {
             imageUrl,
             onSelect: () => props.navigation.navigate({
                 routeName: 'MealDetail', params: {
-                    mealId: id
+                    mealId: id,
+                    mealTitle: title,
                 }
             })
         };
@@ -22,7 +23,8 @@ const MealList = props => {
 
     return (
         <View style={styles.screen}>
-            <FlatList style={{width: '100%'}} data={props.data} keyExtractor={item => item.id} renderItem={renderMealItem}/>
+            <FlatList style={{width: '100%'}} data={props.data} keyExtractor={item => item.id}
+                      renderItem={renderMealItem}/>
         </View>
     );
 };

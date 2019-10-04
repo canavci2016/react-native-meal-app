@@ -1,14 +1,9 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {StyleSheet, Text, View, ScrollView, Image} from 'react-native';
-import {MEALS} from "../data/dumy-data";
 import {HeaderButtons, Item} from "react-navigation-header-buttons";
 import HeaderButton from '../components/HeaderButton';
 import DefaultText from "../components/DefaultText";
-
-const selectedMealFunc = ({navigation}) => {
-    const mealId = navigation.getParam('mealId');
-    return MEALS.find(meal => meal.id === mealId);
-}
+import {useSelector, useDispatch} from "react-redux";
 
 const ListItem = props => {
     return <View style={styles.listItem}>
@@ -17,7 +12,16 @@ const ListItem = props => {
 }
 
 const MealDetailScreen = props => {
-    const selectedMeal = selectedMealFunc(props);
+    const mealId = props.navigation.getParam('mealId');
+    const availableMeals = useSelector(state => state.meals.meals);
+    const selectedMeal = availableMeals.find(meal => meal.id === mealId);
+
+    useEffect(() => {
+        props.navigation.setParams({mealTitle: selectedMeal.title});
+    }, [selectedMeal]);
+
+    const dispatch = useDispatch();
+
     return (
         <ScrollView>
             <Image source={{uri: selectedMeal.imageUrl}} style={styles.image}/>
@@ -35,10 +39,9 @@ const MealDetailScreen = props => {
 };
 
 MealDetailScreen.navigationOptions = navigationData => {
-    const selectedMeal = selectedMealFunc(navigationData);
-
+    const mealTitle = navigationData.navigation.getParam('mealTitle');
     return {
-        headerTitle: selectedMeal.title,
+        headerTitle: mealTitle,
         headerRight: <HeaderButtons HeaderButtonComponent={HeaderButton}>
             <Item title={'Favorites'} iconName={'ios-star-outline'} onPress={() => console.log('Mark as Favorite')}/>
         </HeaderButtons>,
