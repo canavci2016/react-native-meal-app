@@ -19,7 +19,6 @@ const CategoriesScreen = props => {
 
 
 CategoriesScreen.navigationOptions = navData => {
-    console.log(navData);
     return {
         headerTitle: 'Meal Categories',
         headerLeft:

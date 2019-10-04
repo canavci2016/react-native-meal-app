@@ -1,6 +1,7 @@
 import React from 'react';
-import {CATEGORIES, MEALS} from "../data/dumy-data";
+import {CATEGORIES} from "../data/dumy-data";
 import MealList from '../components/MealList';
+import {useSelector, connect} from 'react-redux';
 
 const selectedCategoryFunc = navicationObj => {
     const categoryId = navicationObj.navigation.getParam('categoryId');
@@ -9,7 +10,9 @@ const selectedCategoryFunc = navicationObj => {
 
 const CategoryMealsScreen = props => {
     const selectedCategory = selectedCategoryFunc(props);
-    const meals = MEALS.filter(meal => meal.categoryIds.indexOf(selectedCategory.id) >= 0);
+    const availableMeals = props.meals.filteredMeals;
+    //const availableMeals = useSelector(state => state.meals.filteredMeals); // exclude the connect
+    const meals = availableMeals.filter(meal => meal.categoryIds.indexOf(selectedCategory.id) >= 0);
     return (<MealList navigation={props.navigation} data={meals}/>);
 };
 
@@ -20,4 +23,17 @@ CategoryMealsScreen.navigationOptions = navigationData => {
     };
 };
 
-export default CategoryMealsScreen;
+const mapStateToProps = state => {
+    const {meals} = state;
+    return {meals};
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        add: (name) => {
+            dispatch(addPlace(name))
+        }
+    }
+}
+
+export default connect(mapStateToProps, null)(CategoryMealsScreen);
