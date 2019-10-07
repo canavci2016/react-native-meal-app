@@ -1,6 +1,6 @@
 import React from 'react';
 import {MEALS} from "../../data/dumy-data";
-import {TOGGLE_FAVORITE} from "../actions/meals";
+import {SET_FILTERS, TOGGLE_FAVORITE} from "../actions/meals";
 
 const initialState = {
     meals: MEALS,
@@ -20,6 +20,20 @@ const mealsReducer = (state = initialState, action) => {
                 const meal = state.meals.find(meal => meal.id === action.mealId);
                 return {...state, favoriteMeals: state.favoriteMeals.concat(meal)}
             }
+        case SET_FILTERS:
+            const appliedFilters = action.filters;
+            const filteredMeals = state.meals.filter(meal => {
+                const {glutenFree, lactoseFree, vegetarian} = appliedFilters;
+                const {isGluterFree, isLactoseFree, isVegetarian} = meal;
+
+                if (glutenFree && !isGluterFree || lactoseFree && isLactoseFree || vegetarian && isVegetarian) {
+                    return false;
+                }
+
+                return true;
+            });
+
+            return {...state, filteredMeals};
         default:
             return state;
 
