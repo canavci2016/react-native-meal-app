@@ -1,15 +1,15 @@
 import React from 'react';
 import MealList from '../components/MealList';
 import {useSelector} from "react-redux";
-import {View, StyleSheet} from "react-native";
+import {StyleSheet} from "react-native";
 import {HeaderButtons, Item} from "react-navigation-header-buttons";
 import HeaderButton from '../components/HeaderButton';
-import DefaultText from '../components/DefaultText';
+import EmptyMealsContent from '../components/EmptyMealsContent';
 
 const FavoritesScreen = props => {
     const meals = useSelector(state => state.meals.favoriteMeals);
     if (meals.length === 0 || !meals) {
-        return <View style={styles.content}><DefaultText>No favorite meals found. Start Adding some</DefaultText></View>
+        return <EmptyMealsContent/>
     }
     return (<MealList navigation={props.navigation} data={meals}/>);
 };
